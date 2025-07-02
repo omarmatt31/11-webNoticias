@@ -1,4 +1,4 @@
-import { Form, Button } from "react-bootstrap";
+import { Form, Spinner } from "react-bootstrap";
 import { useForm } from "react-hook-form"
 import ListaNoticias from "./ListaNoticias";
 import { useEffect, useState } from "react";
@@ -6,8 +6,9 @@ import { useEffect, useState } from "react";
 const FormularioNoticias = () => {
   
   
-  let url = 'https://newsdata.io/api/1/latest?apikey=pub_c98c47ded19e48b79a93b962f2ebc70d&language=es&category=science';
+  let url = '';
   const [noticias, setNoticias] = useState([])
+  const [mostrarSpinner, setMostrarSpinner] = useState(true)
   
 
     const {
@@ -23,15 +24,13 @@ const FormularioNoticias = () => {
 
    const obtenerNoticia = async (data)=>{
         try{
-        //setMostrarSpinner(true)
+        setMostrarSpinner(true)
         url = `https://newsdata.io/api/1/latest?apikey=pub_c98c47ded19e48b79a93b962f2ebc70d&language=es&category=${data}`;
-        console.log(url)
         const respuesta = await fetch(url)
         if(respuesta.status === 200){
             const datos = await respuesta.json()
             setNoticias(datos.results)
-            //actualizar el spinner
-            //setMostrarSpinner(false)
+            setMostrarSpinner(false)
         }
         }catch(error){
             console.error(error)
@@ -72,11 +71,16 @@ const handleChange = (e) => {
                         </Form.Select>
                         <Form.Text className="mb-2 text-danger">{errors.inputCategoria?.message}</Form.Text>
                     </Form.Group>
-
                 </Form>
         </section>
         <section className="container p-0 my-0 rounded-3 w-75 mb-5">
+        {mostrarSpinner ?(
+        <div className="my-4 text-center">
+          <Spinner animation="grow" variant="warning" />
+        </div>
+        ) : (
                 <ListaNoticias noticias={noticias}></ListaNoticias>
+                )}
         </section>
         </>
     );
