@@ -72,6 +72,7 @@ Publish directory: dist
 
 MIT License © 2023 [Omar Mattos](https://github.com/omarmatt31).  
 **Nota:** Responsabilidad del desarrollador por el uso adecuado de las APIs.  
-  
 
 **Mantente informado con React!** 📰⚛️
+
+
